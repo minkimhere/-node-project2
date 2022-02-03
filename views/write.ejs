@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Blog</title>
+    <style>
+        .jumbotron {
+            text-align: center;
+        }
+
+        form,
+        .input-group,
+        .table {
+            width: 900px;
+            margin: auto;
+        }
+    </style>
+    <script>
+        function writeArticle() {
+            if (!localStorage.getItem("token")) {
+                alert('로그인이 필요한 기능입니다.')
+                window.location.replace(`/signin`);
+                return;
+            }
+            // console.log("실험용");
+            let title = $('#title').val();
+            let content = $('#content').val();
+            let date = '';
+            let nickname = '';
+
+            if (title === '') {
+                alert('제목을 입력하세요.')
+                return;
+            }
+            if (content === '') {
+                alert('내용을 입력하세요.')
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/blog/write",
+                headers: {
+							"Authorization": `Bearer ${localStorage.getItem("token")}`,
+						},
+                data: {
+                    title: title, content: content, nickname : nickname, date: date, 
+                },
+                success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
+                    window.location.replace('/');
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">글쓰기</h1>
+        <hr class="my-4">
+        <p>글을 작성할 수 있어요.</p>
+        <button onclick="writeArticle()" type="button" class="btn btn-primary btn-lg">작성</button>
+        <a onclick="window.location.href='/'" class="btn btn-secondary btn-lg" href="#" role="button">취소</a>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요.">
+        </div>
+        <div class="form-group">
+            <label for="contents">내용</label>
+            <textarea class="form-control" id="content" rows="3" placeholder="내용을 입력하세요."></textarea>
+        </div>
+    </form>
+</body>
+
+</html>

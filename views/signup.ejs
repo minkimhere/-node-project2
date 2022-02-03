@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Blog</title>
+    <style>
+        .jumbotron {
+            text-align: center;
+        }
+
+        form {
+            width: 900px;
+            margin: auto;
+        }
+    </style>
+    <script>
+        function signUp() {
+            // console.log("실험용");
+
+            let nickname = $('#nickname').val();
+            let password = $('#password').val();
+            let confirmPassword = $('#confirmPassword').val();
+
+            if (nickname === '') {
+                alert('닉네임을 입력하세요.')
+                return;
+            }
+            if (password === '') {
+                alert('비밀번호를 입력하세요.')
+                return;
+            }
+            if (confirmPassword === '') {
+                alert('비밀번호 확인란을 입력하세요.')
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/user",
+                data: {
+                    nickname: nickname,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                },
+                success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
+                    if (localStorage.getItem("token")) {
+                        alert("이미 로그인이 되어있습니다.");
+                        window.location.replace("/");
+                    } else {
+                        alert('회원가입이 완료되었습니다.')
+                        window.location.replace('/signin');
+                    }
+                },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
+                },
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">회원가입</h1>
+        <hr class="my-4">
+        <p>간단하게 회원가입을 할 수 있어요.</p>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="id">닉네임</label>
+            <input type="text" class="form-control" id="nickname" aria-describedby="emailHelp"
+                placeholder="영어로 닉네임을 입력하세요.">
+        </div>
+        <div class="form-group">
+            <label for="pwd">비밀번호</label>
+            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요.">
+        </div>
+        <div class="form-group">
+            <label for="pwd2">비밀번호 확인</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 입력하세요.">
+        </div>
+        <button onclick="signUp()" type="button" class="btn btn-info">회원가입</button>
+        <button onclick="window.location.href='/signin'" type="button" class="btn btn-secondary">취소</button>
+    </form>
+</body>
+
+</html>

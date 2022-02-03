@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Blog</title>
+    <style>
+        .jumbotron {
+            text-align: center;
+        }
+
+        form {
+            width: 900px;
+            margin: auto;
+        }
+    </style>
+    <script>
+        function signUp() { //이미 로그인 했을 경우 회원가입으로 이동 안 함.
+            if (localStorage.getItem("token")) {
+                alert("이미 로그인이 되어있습니다.");
+                window.location.replace("/");
+            } else {
+                window.location.href = '/signup';
+            }
+        }
+
+        function signIn() {
+            console.log("실험용");
+
+            let nickname = $('#nickname').val();
+            let password = $('#password').val();
+
+            if (nickname === '') {
+                alert('닉네임을 입력하세요.')
+                return;
+            }
+            if (password === '') {
+                alert('비밀번호를 입력하세요.')
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/auth",
+                data: {
+                    nickname: nickname,
+                    password: password,
+                },
+                success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
+                    if (localStorage.getItem("token")) {
+                        alert("이미 로그인이 되어있습니다.");
+                        window.location.replace("/");
+                    } else {
+                        alert('로그인이 완료되었습니다.')
+                        localStorage.setItem("token", response.token);
+                        window.location.replace('/');
+                    }
+                },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
+                },
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="display-4">로그인</h1>
+        <hr class="my-4">
+        <p>로그인을 하면 글을 작성하거나 댓글을 쓸 수 있어요.</p>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="nickname">닉네임</label>
+            <input type="text" class="form-control" id="nickname" aria-describedby="emailHelp"
+                placeholder="닉네임을 입력하세요.">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요.">
+        </div>
+        <button onclick="signIn()" type="submit" class="btn btn-success">로그인</button>
+        <button onclick="signUp()" type="button" class="btn btn-info">회원가입</button>
+        <button onclick="window.location.href='/'" type="button" class="btn btn-secondary">취소</button>
+    </form>
+</body>
+
+</html>

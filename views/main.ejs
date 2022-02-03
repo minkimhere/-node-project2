@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Blog</title>
+    <style>
+        .jumbotron {
+            text-align: center;
+        }
+
+        .table {
+            width: 900px;
+            margin: auto;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            showWholeArticle();
+        })
+
+        function toWrite() {
+            if (!localStorage.getItem("token")) {
+                alert('로그인이 필요한 기능입니다.')
+                window.location.replace(`/signin`);
+                return;
+            }
+            window.location.href="/write";
+        }
+
+        function logout() {
+            if(!confirm('로그아웃하시겠습니까?')){ //로그아웃 물어보는 alert
+                return;
+            }
+            localStorage.removeItem("token");
+            window.location.replace("/");
+        }
+
+        function showWholeArticle() {
+            $.ajax({
+                type: 'GET',
+                url: '/blog/article',
+                data: {},
+                success: function (response) {
+                    let article = response.article;
+
+                    for (let i = 0; i < article.length; i++) {
+                        let postId = article[i].postId;
+                        let title = article[i].title;
+                        let content = article[i].content;
+                        let nickname = article[i].nickname;
+                        let date = article[i].date;
+
+                        let temp_html = ` 
+                                        <tbody>
+                                            <tr>
+                                                <td><a href="/detail?postId=${postId}">${title}</a></td>
+                                                <td>${nickname}</td>
+                                                <td>${date}</td>
+                                            </tr>
+                                        </tbody>`;
+
+                        $('#article').append(temp_html);
+                    }
+                    // 토큰 없으면(로그아웃일 때) 로그인 버튼으로
+                    if (!localStorage.getItem("token")) {
+                        let temp_login_btn = `<a onclick="window.location.href='/signin'" class="btn btn-success btn-lg" href="#" role="button">로그인</a>`;
+                        $('#signInBtn').append(temp_login_btn);
+                    } else { // 토큰 있으면(로그인일 때) 로그아웃 버튼으로
+                        let temp_logout_btn = `<a onclick="logout()" class="btn btn-secondary btn-lg" href="#" role="button">로그아웃</a>`;
+                        $('#signInBtn').append(temp_logout_btn);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="jumbotron" id="signInBtn">
+        <h1 class="display-4">블로그</h1>
+        <hr class="my-4">
+        <p>로그인하고 글을 써보세요.</p>
+        <button onclick="toWrite()" type="button" class="btn btn-primary btn-lg">글쓰기</button>
+    </div>
+
+    <!-- <div class="card-columns" id="article">
+    </div> -->
+
+    <table class="table" id="article">
+        <thead>
+            <tr>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성날짜</th>
+            </tr>
+    </table>
+</body>
+
+</html>

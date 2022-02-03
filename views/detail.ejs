@@ -56,7 +56,6 @@
 
         // 댓글 보기
         function showComment(postId) {
-            console.log('실험용');
             $.ajax({
                 type: "GET",
                 url: '/blog/comments/' + postId,
@@ -68,13 +67,25 @@
                     let comments = response.comment;
                     // console.log(comments);
 
-                    for (let i = 0; i < article.length; i++) {
+                    for (let i = 0; i < comments.length; i++) {
                         let comment = comments[i].comment;
                         let nickname = comments[i].nickname;
 
-                        console.log(comment, nickname);
+                        let temp_html = `<tbody>
+                                            <tr>
+                                                <td>${nickname}</td>
+                                                <td>${comment}</td>
+                                                <td>
+                                                    <a href=""><i class="fas fa-edit fa-lg"></i></a>
+                                                    <a href=""><i class="fas fa-trash-alt fa-lg"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>`;
+
+                        $('#comment-list').append(temp_html);
                     }
-                }})
+                }
+            })
         }
 
         // 상세페이지 보기
@@ -127,7 +138,7 @@
                 }
             });
         }
- 
+
         // 상세페이지에서 수정버튼 누를 때
         function toEdit() {
             if (!localStorage.getItem("token")) {
@@ -165,7 +176,7 @@
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: {
-                    comment: comment, nickname: nickname, commentPostId : commentPostId
+                    comment: comment, nickname: nickname, commentPostId: commentPostId
                 },
                 success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
                     window.location.replace(`/detail?postId=${postId}`);
@@ -193,21 +204,12 @@
             <span class="input-group-text" id="basic-addon1">댓글</span>
         </div>
         <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1" id="comment"
-            placeholder="댓글 조회 구현중입니다.">
+            placeholder="댓글을 입력하세요.">
         <button onclick="writeComment()" type="button" class="btn btn-primary">작성</button>
     </div>
 
     <table class="table" id="comment-list">
-        <tbody>
-            <tr>
-                <td>닉네임</td>
-                <td>내용</td>
-                <td><i class="fas fa-edit fa-lg"></i><i class="fas fa-trash-alt fa-lg"></i></td>
-            </tr>
-        </tbody>
     </table>
-
-
 </body>
 
 </html>

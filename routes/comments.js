@@ -13,11 +13,11 @@ router.post("/comment/:commentPostId", AuthMiddleware, async (req, res) => {
 });
 
 //댓글조회 read
-router.get("/comments/:postId", async (req, res) => {
+router.get("/comments/:commentPostId", async (req, res) => {
     try {
-        const {postId} = req.params;
-        const comment = await Comment.find().sort("-commentId");
-        res.json({ comment});
+        const {commentPostId} = req.params;
+        const comment = await Comment.find({ commentPostId : commentPostId }).sort("-commentId");
+        res.json({comment});
     }
     catch (error) {
         res.status(400).send({ error: error.message });

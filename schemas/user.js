@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
 });
 
+// db에 저장은 안 되지만 가상으로 생성돼서 쓸 수 있게 하는 것
 UserSchema.virtual('userId').get(function () {
   return this._id.toHexString();
 });

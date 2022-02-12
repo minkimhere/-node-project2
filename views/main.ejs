@@ -20,10 +20,12 @@
         }
     </style>
     <script>
+        // 로딩되자마자 전체 게시글 보기
         $(document).ready(function () {
             showWholeArticle();
         })
 
+        // 글 작성 로그인 검사
         function toWrite() {
             if (!localStorage.getItem("token")) {
                 alert('로그인이 필요한 기능입니다.')
@@ -33,6 +35,7 @@
             window.location.href="/write";
         }
 
+        // 로그아웃 물어보기 
         function logout() {
             if(!confirm('로그아웃하시겠습니까?')){ //로그아웃 물어보는 alert
                 return;
@@ -41,6 +44,7 @@
             window.location.replace("/");
         }
 
+        // 메인페이지 게시글 전체 보기
         function showWholeArticle() {
             $.ajax({
                 type: 'GET',

@@ -56,59 +56,11 @@
         })
 
         // 수정하는 걸 없앴다가 보이게하는 방법에 대해 알아보기.. 
+        // .hide .show 알아보기. 
+        // 바닐라 js로 하는 방법도 알아야 하는지.
         function commentShowHide(commentId) {
             console.log(commentId);
         }
-        // function modifyCommentShow(commentId) {
-        //     $(`#comment${commentId}`).hide()
-        //     $(`#commentIcon${commentId}`).hide()
-
-        //     $(`#commentDiv${commentId}`).show()
-
-        //     const commentText = $(`#comment${commentId}`).text().trim();
-        //     $(`#commentInput${commentId}`).val(commentText)
-        // }
-
-        // function modifyCommentHide(commentId) {
-        //     $(`#comment${commentId}`).show()
-        //     $(`#commentIcon${commentId}`).show()
-
-        //     $(`#commentDiv${commentId}`).hide()
-        // }
-
-
-        //댓글 수정
-        // function commentEdit() {
-        //     console.log('실험');
-        //     let comment = $('#comment').val();
-        //     console.log(title, content);
-
-        //     // if (title === '') {
-        //     //     alert('제목을 입력하세요.')
-        //     //     return;
-        //     // }
-
-        //     $.ajax({
-        //         type: "PUT",
-        //         url: "/blog/comments/" + postId,
-        //         headers: {
-        //             "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        //         },
-        //         data: {
-        //             comment: comment,
-        //         },
-        //         success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
-        //                 // console.log(response);
-        //                 alert(response["msg"] );
-        //                 window.location.reload();
-        //             },
-        //             error: function (error) {
-        //                 // console.log(error)
-        //                 alert(response["msg"] );
-        //                 // window.location.replace(`/`);
-        //         },
-        //     })
-        // }
 
         // 댓글 보기
         function showComment(postId) {

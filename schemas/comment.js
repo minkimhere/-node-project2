@@ -10,12 +10,13 @@ const CommentSchema = new mongoose.Schema({
   comment: {
     type: String,
   },
+  // 게시글번호 
   commentPostId: {
     type: String,
   },
 });
 
-CommentSchema.plugin(AutoIncrement, { inc_field: 'commentId' }); //게시물 번호 자동생성
+CommentSchema.plugin(AutoIncrement, { inc_field: 'commentId' }); //댓글 번호 자동생성
 
 // model의 첫번째 argument가 db이름됨. db이름 될 때 s 자동으로 붙어서 post됨
 module.exports = mongoose.model('Comment', CommentSchema);

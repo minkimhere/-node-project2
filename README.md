@@ -4,8 +4,8 @@
 
 ![텍스트](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbgWD8j%2Fbtrs9irLEd9%2F0z4r2Xw3WNdOq8efG8x1k0%2Fimg.png "블로그 메인페이지")
 ----------
- 메인페이지는 누구나 접근 가능하고, 작성된 글도 누구나 확인할 수 있습니다.<br>
- `글쓰기`, `수정`, `삭제`, `댓글`은 `로그인`한 유저만 가능합니다.
+ 메인페이지는 누구나 접근 가능하고, 작성된 글, 댓글도 누구나 확인할 수 있습니다.<br>
+ `글쓰기`, `글수정`, `글삭제`, `댓글쓰기`는 `로그인`한 유저만 가능합니다.
  
 <br>
  구현 기능은 다음과 같습니다. 

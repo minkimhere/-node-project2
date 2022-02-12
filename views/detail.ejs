@@ -73,14 +73,12 @@
                 data: {},
                 success: function (response) {
                     let comments = response.comment;
-                    // console.log(comments);
 
                     for (let i = 0; i < comments.length; i++) {
                         let comment = comments[i].comment;
                         let nickname = comments[i].nickname;
                         let commentId = comments[i].commentId;
 
-                        // console.log(commentId);
 
                         let temp_html = `<tbody>
                                             <tr>
@@ -113,7 +111,6 @@
                 },
                 data: {},
                 success: function (response) {
-                    // console.log(response);
                     let article = response.article;
 
                     // let loginNickname = response.nickname; // 로그인 되어있는 닉네임
@@ -124,7 +121,6 @@
                     let content = article.content;
                     let date = article.date
 
-                    // console.log(articleNickname, loginNickname);
 
                     let temp_html = `<div class="form-group">
                                         <label for="alert_title">제목</label>

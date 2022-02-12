@@ -5,19 +5,14 @@ const Joi = require('joi');
 const User = require('../schemas/user');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-// const postUsersSchema = Joi.object({
-//     nickname: Joi.string().required(),
-//     nickname: Joi.string().nickname().required(),
-//     password: Joi.string().required(),
-//     confirmPassword: Joi.string().required(),
-// });
-
+// joi 패키지로 회원가입 유효성 검사
 const postUsersSchema = Joi.object({
   nickname: Joi.string().alphanum().min(3).required(),
   password: Joi.string().min(4).required(),
   confirmPassword: Joi.string().required(),
 });
 
+// 회원가입
 router.post('/user', async (req, res) => {
   try {
     const { nickname, password, confirmPassword } =
@@ -61,10 +56,12 @@ router.post('/user', async (req, res) => {
   }
 });
 
+// 로그인 유효성 검사
 const postAuthSchema = Joi.object({
   nickname: Joi.string().required(),
   password: Joi.string().required(),
 });
+// 로그인
 router.post('/auth', async (req, res) => {
   try {
     const { nickname, password } = await postAuthSchema.validateAsync(req.body);
@@ -90,6 +87,7 @@ router.post('/auth', async (req, res) => {
   }
 });
 
+// 미들웨어에 저장해놓은 로그인정보 가져오기
 router.get('/user/me', authMiddleware, async (req, res) => {
   const { user } = res.locals;
   res.send({

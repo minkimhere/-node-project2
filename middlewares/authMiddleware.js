@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
 const User = require('../schemas/user');
 
+// 인증
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
   const [authType, authToken] = (authorization || '').split(' ');
 
+  // 인증 Bearer 타입 아니면 거르기
   if (!authToken || authType !== 'Bearer') {
     res.status(401).send({
       errorMessage: '로그인 후 이용 가능한 기능입니다.',
@@ -12,6 +14,7 @@ module.exports = (req, res, next) => {
     return;
   }
 
+  // 로그인정보 저장해놓기
   try {
     const { userId } = jwt.verify(authToken, 'mein-secret-key');
     User.findById(userId).then((user) => {

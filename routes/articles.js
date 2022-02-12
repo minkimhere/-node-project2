@@ -81,14 +81,3 @@ router.delete('/delete/:postId', AuthMiddleware, async (req, res) => {
 });
 
 module.exports = router;
-
-// 오류났던 코드
-// const article = await Article.find({ postId: postId });
-// if (articleNickname !== loginNickname) { // 아이디 다르면 돌려보내기
-//   return res.send({ success: false, 'msg': "잘못된 요청입니다." });
-// } else {
-//   if (article.length) { // 있으면 수정하기
-//     await Article.updateOne({ postId: postId }, { $set: { title, content } });
-//     res.json({ result: "success", 'msg': '수정이 완료되었습니다.' });
-//   }
-// }

@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npx nodemon app"
+    "start": "npx nodemon app",
+    "prettify": "prettier --write *.js **/*.js"
   },
   "author": "mk",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "mongoose-sequence": "^5.3.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
   }
 }

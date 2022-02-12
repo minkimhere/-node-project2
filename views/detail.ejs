@@ -48,11 +48,67 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const postId = urlParams.get("postId");
+        // console.log(postId);
 
         $(document).ready(function () {
             showDetailArticle(postId);
             showComment(postId);
         })
+
+        // 수정하는 걸 어케 없앴다가 보이게하냐 
+        function commentShowHide(commentId) {
+            console.log(commentId);
+        }
+        // function modifyCommentShow(commentId) {
+        //     $(`#comment${commentId}`).hide()
+        //     $(`#commentIcon${commentId}`).hide()
+
+        //     $(`#commentDiv${commentId}`).show()
+
+        //     const commentText = $(`#comment${commentId}`).text().trim();
+        //     $(`#commentInput${commentId}`).val(commentText)
+        // }
+
+        // function modifyCommentHide(commentId) {
+        //     $(`#comment${commentId}`).show()
+        //     $(`#commentIcon${commentId}`).show()
+
+        //     $(`#commentDiv${commentId}`).hide()
+        // }
+
+
+        //댓글 수정
+        // function commentEdit() {
+        //     console.log('실험');
+        //     let comment = $('#comment').val();
+        //     console.log(title, content);
+
+        //     // if (title === '') {
+        //     //     alert('제목을 입력하세요.')
+        //     //     return;
+        //     // }
+
+        //     $.ajax({
+        //         type: "PUT",
+        //         url: "/blog/comments/" + postId,
+        //         headers: {
+        //             "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        //         },
+        //         data: {
+        //             comment: comment,
+        //         },
+        //         success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
+        //                 // console.log(response);
+        //                 alert(response["msg"] );
+        //                 window.location.reload();
+        //             },
+        //             error: function (error) {
+        //                 // console.log(error)
+        //                 alert(response["msg"] );
+        //                 // window.location.replace(`/`);
+        //         },
+        //     })
+        // }
 
         // 댓글 보기
         function showComment(postId) {
@@ -70,19 +126,26 @@
                     for (let i = 0; i < comments.length; i++) {
                         let comment = comments[i].comment;
                         let nickname = comments[i].nickname;
+                        let commentId = comments[i].commentId;
+
+                        // console.log(commentId);
 
                         let temp_html = `<tbody>
                                             <tr>
                                                 <td>${nickname}</td>
                                                 <td>${comment}</td>
                                                 <td>
-                                                    <a href=""><i class="fas fa-edit fa-lg"></i></a>
-                                                    <a href=""><i class="fas fa-trash-alt fa-lg"></i></a>
+                                                   
                                                 </td>
                                             </tr>
                                         </tbody>`;
 
                         $('#comment-list').append(temp_html);
+                        commentShowHide(commentId); //콜백. argument로 넣어서 밖에 함수에 쓸 수 있게 할 거임.
+
+                        //td 안에 넣는 거
+                        // <a onclick="commentEdit()"><i class="fas fa-edit fa-lg"></i></a>
+                                                    // <a><i class="fas fa-trash-alt fa-lg"></i></a>
                     }
                 }
             })
